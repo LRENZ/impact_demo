@@ -240,7 +240,7 @@ function display_response(res) {
     var send_button = document.getElementById("send")
     send_button.addEventListener("click", function() {
         request({
-            url: 'http://httpbin.org/get',
+            url: 'https://httpbin.org/get',
             method: 'GET',
             data: window.google_tag_manager["GTM-TSZKPQT"].dataLayer.get("url_query"),
             success: function(res) {
