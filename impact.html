@@ -1,0 +1,398 @@
+	<head>
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-TSZKPQT');</script>
+	<!-- End Google Tag Manager -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Material Design Lite">
+	<meta name="mobile-web-app-capable" content="yes">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+	<style type="text/css">
+		p{
+			font-size: 16px;
+		}
+		#scroll_menu{
+			position: fixed;
+		}
+	</style>
+
+</head>
+<body>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.scrollspy');
+			var instances = M.ScrollSpy.init(elems);
+		});
+
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.fixed-action-btn');
+			var instances = M.FloatingActionButton.init(elems, {
+				direction: 'left',
+				hoverEnabled: false
+			});
+		});
+
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.materialboxed');
+			var instances = M.Materialbox.init(elems);
+		});
+
+		document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems,{
+        	inDuration: 2000
+        });
+        });
+ 
+
+	</script>
+
+	<script>hljs.highlightAll();</script>
+
+	<div class="container">
+
+		<div class="row">
+
+			<div class="col hide-on-small-only m3 l3" >
+				<ul class="section table-of-contents" id='scroll_menu'>
+					<li><a href="#GTM">GTM Implementation</a></li>
+					<li><a href="#API">API Implementation</a></li>
+					<li><a href="#JS">JS Implementation</a></li>
+					<li><a href="#APP">APP Implementation</a></li>
+				</ul>
+			</div>
+
+			<div class="col s12 m9 l9">
+
+
+				<div id="GTM" class="section scrollspy">
+					<h3>GTM Implementation </h3>
+
+
+					<blockquote>
+						<p>Create a test page, using any hosting option you prefer - free sites can be created using https://pages.github.com/ with a free Github account, or sites such as zeit or surge.
+						</p>
+
+						<p> Implement Google Tag Manager on the site. Create logic that adds the key and value from query string parameters to the GTM data layer. </p>
+
+					</blockquote>   
+
+					<p>
+						As you may see on the website, GTM container (GTM-TSZKPQT) have been installed on the website.
+					</p> 
+
+
+					<pre>
+						<code>
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TSZKPQT');
+
+					</code>
+				</pre>
+
+				<p>
+					To grab the URL query and push into the dataLayer, let's create a new Custom HTML Tag in the GTM
+				</p> 
+
+				<ul>
+					<li> 1. Create a Custom HTML Tag in GTM and implemented the code as below</li>
+				</ul>
+ 
+				<pre>
+					<code>
+function queryToObject(query) {
+    var obj = {};
+    var q = query || window.location.search;
+    if (!!q) {
+        var obj = {};
+        q.replace(/([^?=&]+)=([^&]*)/g, function(m, key, value) {
+            obj[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+        return obj
+    }
+}
+
+if (!!queryToObject()) {
+    var queryObject = {
+        url_query: queryToObject()
+    }
+
+    window.dataLayer.push(queryObject);
+}
+
+	</code>
+</pre>
+
+<ul>
+<li>
+	2. Assign the All page trigger to the tag in order to trigger the tag when page load
+</li>
+</ul>
+
+<ul>
+<li>
+	3. Save & Publish GTM
+</li>
+</ul>
+<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_GTM_query.png">
+
+
+
+<p>
+
+	If everything is working well, all the URL query parameters will be pushed into dataLayer as below
+
+</p>
+
+<script>
+	function addQuery(){
+		if(document.URL.indexOf('?') == -1){
+			window.location.href = window.document.URL + '?test=1&medium=normal'
+		}
+	}
+	</script>
+
+<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_query.gif">
+
+<p> You could add some URL query parameters by click the below button</p>
+<button class="waves-effect waves-light btn-large" id="query" onclick="addQuery()">  Add URL Query</button>
+
+
+
+
+</div>
+
+<div id="API" class="section scrollspy">
+	<h3>API Implementation </h3>
+	<blockquote>  
+		<p>Add a button to your page that sends a GET API request to the following endpoint: <a href="http://httpbin.org/get"> http://httpbin.org/get </a> </p>
+
+		<p> Request should use the query string parameters stored in the GTM data layer as key value pairs sent to the GET request. </p>
+
+	</blockquote>
+
+	<p> Let's achieve the above logic in GTM  as well and display on the website</p>
+
+	<ul>
+		<li>
+			1. Create an HTML Tag in GTM and implement the following code
+		</li>
+
+						<pre>
+					<code>
+function request(option) {
+    if (String(option) !== '[object Object]') return undefined
+    option.method = option.method ? option.method.toUpperCase() : 'GET'
+    option.data = option.data || {}
+    var formData = []
+    for (var key in option.data) {
+        formData.push(''.concat(key, '=', option.data[key]))
+    }
+    option.data = formData.join('&')
+
+    if (option.method === 'GET') {
+        option.url += option.url.indexOf('?') == -1 ? ''.concat('?', option.data) : ''.concat('&', option.data)
+    }
+
+    var xhr = new XMLHttpRequest()
+    xhr.responseType = option.responseType || 'json'
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                if (option.success && typeof option.success === 'function') {
+                    option.success(xhr.response)
+                }
+            } else {
+                if (option.error && typeof option.error === 'function') {
+                    option.error()
+                }
+            }
+        }
+    }
+    xhr.open(option.method, option.url, true)
+    if (option.method === 'POST') {
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    }
+    xhr.send(option.method === 'POST' ? option.data : null)
+}
+
+function display_response(res) {
+    var el = document.getElementById("display_response")
+    M.toast({
+        html: JSON.stringify(res),
+        classes: 'rounded'
+    })
+}
+
+    var send_button = document.getElementById("send")
+    send_button.addEventListener("click", function() {
+        request({
+            url: 'http://httpbin.org/get',
+            method: 'GET',
+            data: window.google_tag_manager["GTM-TSZKPQT"].dataLayer.get("url_query"),
+            success: function(res) {
+                display_response(res)
+            },
+            error: function(err) {
+                display_response(err)
+            }
+        })
+    })
+
+	</code>
+</pre>
+
+<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_api_tag.png">
+
+
+<li> 
+	2. Create a Dom Ready Trigger and assign to the above tag
+</li>
+
+<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_api_trigger.png">
+
+<li>
+    3. Save & Publish
+</li>
+
+
+		</ul>
+
+	<p> Click the following button will send the request to the above endponint and display the response</p>
+
+	<button class="waves-effect waves-light btn-large" id="send">Try Yourself</button>
+
+</div>
+
+<div id="JS" class="section scrollspy">
+	<h3>JavaScript Implementation </h3>
+	<blockquote>  
+		<p>Add an ad unit to the page with an iframe in an IAB standard ad size </p>
+		<p> Fire the following JS tag when the ad unit loads. See below for instructions to populate the highlighted parameters:</p>
+			<pre>
+				<code class="html">src="http://c.fqtag.com/tag/implement-r.js?org=BB6DvPmytpFndg8atDcN&p=[REFERRER]&a=[USER_AGENT]&cmp=[YOURNAME]&fmt=banner&rt=display&sl=1&fq=1"</code>
+			</pre>
+			<p>Populate the variables in the tag with the following:</p>
+            <ol>
+			<li> ‘p’ = Referring URL (URL encoded) </li>
+			<li> ‘a’ = User Agent string</li>
+			<li> ‘cmp’ = Your Name</li>
+			<ol>
+</blockquote>
+
+<p> Firstly, Let's create an 728×90 iframe with the below code</p>
+<pre>
+	<code>
+function createFrame(width, height, on_load_callback, url) {
+    el = document.getElementById("iframe");
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", url);
+    ifrm.style.width = width;
+    ifrm.style.height = width;
+    ifrm.onload = on_load_callback;
+    el.appendChild(ifrm);
+}
+
+function iframeLoad() {
+    window.dataLayer.push({
+        event: "iframe_load"
+    })
+
+}
+createFrame('250', '250', iframeLoad, "https://linpiner.com/")
+	</code>
+</pre>
+<div id="iframe"></div> 
+
+<script type="text/javascript">
+	
+function createFrame(width, height, on_load_callback, url) {
+    el = document.getElementById("iframe");
+    var ifrm = document.createElement("iframe");
+    ifrm.setAttribute("src", url);
+    ifrm.style.width = width;
+    ifrm.style.height = width;
+    ifrm.onload = on_load_callback;
+    el.appendChild(ifrm);
+}
+
+function iframeLoad() {
+    window.dataLayer.push({
+        event: "iframe_load"
+    })
+
+}
+createFrame('250', '250', iframeLoad, "https://linpiner.com/admin")
+
+</script>
+
+<p> The above script will create a 250x250 iframe and it will push an event into dataLayer when loading</p>
+<p> subsequently, In order to fire the the script when the iframe load, let's make some configuration in GTM interface</p>
+<ul>
+	<li> 1. create the an Custom HTML Tag and populate the tag with the following script</li>
+	<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_inject_script_tag.png">
+	<pre>
+		<code>
+(function(d, NAME) {
+    script = d.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'http://c.fqtag.com/tag/implement-r.js?org=BB6DvPmytpFndg8atDcN&p=' + decodeURI(document.referrer) + '&a=' + window.navigator.userAgent + '&cmp=' + NAME;
+    d.getElementsByTagName('head')[0].appendChild(script);
+}(document, "Renzhong LIU"));
+		</code>
+	</pre>
+
+	<li>
+	2. In order to only inject this script when iframe loaded, let's create an custom trigger as below</li>
+	<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_custom_event_trigger.png">
+	</li>
+	<li> Save & Publish </li>
+
+	<li>You should see the script is injected as the below gif</li>
+	<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_inject_script.gif">
+
+</ul>
+</div>
+
+<div id="APP" class="section scrollspy">
+	<h3>APP Implementation </h3>
+	<blockquote> 
+		<p>Create a mobile app (iOS or Android), which can return data via an API call. API Endpoint (requires signup) <a href = 'https://openweathermap.org/current'> https://openweathermap.org/current</a> This app should be able to:</p>
+			1.	Allow a user to input the following fields
+			  a.	city name
+			  b.	state code
+			  c.	country code
+			2.	Make an API call to retrieve the current weather of the location
+			3.	Display the results in the app 
+
+		</p>
+	</blockquote>
+
+	<p> Regarding the last APP test, I create a demo Andriod APP, which looks like as below</p>
+	<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_get_weather.gif">
+	<p> You could also download the demo APK <a href="https://linpiner.com/admin/fileadmin/download/app-debug.apk">here </a></p>
+</div>
+</div>
+
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large red" href="#">
+		Top
+	</a>
+</div>
+</div>
+</div>
+</body>
+
