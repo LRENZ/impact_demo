@@ -52,7 +52,17 @@
         var instances = M.Modal.init(elems,{
         	inDuration: 2000
         });
+
         });
+		
+		window.addEventListener('load', function(){
+		  if(!window.google_tag_manager){
+		    M.toast({
+              html: "<strong> The implementation script is injected by GTM. Please DO NOT block gtm.js! </strong>",
+              classes: 'rounded'
+           })
+		}
+		});
  
 
 	</script>
@@ -269,11 +279,16 @@ function display_response(res) {
 </li>
 
 
+
+
+
 		</ul>
 
 	<p> Click the following button will send the request to the above endponint and display the response</p>
 
 	<button class="waves-effect waves-light btn-large" id="send">Try Yourself</button>
+	
+	<img class="responsive-img materialboxed"  src="https://linpiner.com/admin/fileadmin/download/impact_api_response.png">
 
 </div>
 
